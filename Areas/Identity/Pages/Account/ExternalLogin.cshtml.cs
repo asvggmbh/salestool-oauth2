@@ -85,8 +85,16 @@ namespace DemoSalestoolLogin.Areas.Identity.Pages.Account
             [EmailAddress]
             public string Email { get; set; }
         }
-        
-        public IActionResult OnGet() => RedirectToPage("./Login");
+
+        /* start: code added by envisia GmbH */
+        public IActionResult OnGet(string provider, string returnUrl = null)
+        {
+            // Request a redirect to the external login provider.
+            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
+        }
+        /* end: code added by envisia GmbH */
 
         public IActionResult OnPost(string provider, string returnUrl = null)
         {

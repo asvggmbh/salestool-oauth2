@@ -18,6 +18,7 @@ builder.Services
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+/* start: code added by envisia GmbH */
 builder.Services.AddAuthentication().AddOpenIdConnect("asvg", options =>
 {
     options.Authority = "https://salestool.asvg-solutions.de/";
@@ -46,6 +47,7 @@ builder.Services.AddAuthentication().AddOpenIdConnect("asvg", options =>
         },
     };
 });
+/* end: code added by envisia GmbH */
 
 builder.Services.AddRazorPages();
 var app = builder.Build();
