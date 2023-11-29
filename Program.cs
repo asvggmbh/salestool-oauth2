@@ -37,9 +37,11 @@ builder.Services.AddAuthentication().AddOpenIdConnect("asvg", options =>
     {
         OnRemoteFailure = ctx =>
         {
+            // if somebody bookmarks the asvg salestool login portal a correlation failure would happen
+            // this fixes it by restarting the login flow
             if (ctx.Failure?.Message == "Correlation failed.")
             {
-                ctx.Response.Redirect("/");
+                ctx.Response.Redirect("/Identity/Account/ExternalLogin?returnUrl=%2F&provider=asvg");
                 ctx.HandleResponse();
             }
 
